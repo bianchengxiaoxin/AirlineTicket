@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.airlineticket_idea.mapper.AirportUserMapper">
+
+    <resultMap id="BaseResultMap" type="org.airlineticket_idea.pojo.AirportUser">
+            <id property="userId" column="user_id" />
+            <result property="phone" column="phone" />
+            <result property="password" column="password" />
+            <result property="userName" column="user_name" />
+            <result property="airportId" column="airport_id" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        user_id,phone,password,user_name,airport_id
+    </sql>
+    <select id="selectAirportUserByQuery" resultType="airportUserVO">
+        SELECT au.phone,
+               au.user_id AS userId,
+               au.user_name AS userName,
+               au.airport_id AS airportId,
+               a.phone AS airportPhone,
+               a.address,
+               airport_name AS airportName
+        FROM airport_user au
+            LEFT JOIN airport a ON au.airport_id = a.airport_id
+        ${ew.customSqlSegment}
+    </select>
+</mapper>
